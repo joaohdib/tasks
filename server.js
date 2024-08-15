@@ -11,6 +11,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/tasks')
 
 app.set('view engine', 'ejs');
 
+app.use(express.static('public'));
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -22,6 +24,16 @@ app.get('/', (req, res) => {
             console.log(err);
         });
 });
+
+app.delete('/delete', (req,res) => {
+    Task.deleteOne({id: req.params.id})
+    .then ((result) => {
+        res.send(result);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+})
 
 app.get('/create', (req, res) => {
     res.render('create');
@@ -45,9 +57,36 @@ app.post('/create', (req, res) => {
 });
 
 app.get('/edit/:id', (req, res) => {
-    Task.findById(id)
+    Task.findById(req.params.id)
         .then((result) => {
-            res.render('edit/' + id, { task: result });
+            res.render('edit', { task: result });
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+
+});
+
+app.post('/edit', (req, res) => {
+    console.log
+    Task.updateOne({ id: req.body.id }, {
+        title: req.body.title,
+        desc: req.body.desc,
+        done: req.body.done
+      })
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+});
+
+app.get('/edit/:id', (req, res) => {
+    Task.findById(req.params.id)
+        .then((result) => {
+            res.render('edit', { task: result });
         })
         .catch((err) => {
             console.log(err)

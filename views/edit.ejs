@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Tarefa</title>
-    <link rel="stylesheet" href="/styleCreate.css">
+    <link rel="stylesheet" href="/styleEdit.css">
 </head>
 
 <body>
     <div class="form-container">
-        <h2>Criar Nova Tarefa</h2>
+        <h2>Atualizar Tarefa</h2>
         
         <form>
             <div class="form-group">
@@ -29,7 +29,7 @@
             </div>
 
             <div class="form-actions">
-                <button id="submit-btn" type="submit">Criar Tarefa</button>
+                <button id="submit-btn" type="submit">Atualizar Tarefa</button>
             </div>
         </form>
 
@@ -39,18 +39,35 @@
     </div>
 
     <script>
+        let tTitle = document.getElementById("task-title");
+        let tDesc = document.getElementById("task-desc");
+        let tDone = document.getElementById("task-status");
+        let checked;
+
+        tTitle.value = '<%= task.title %>';
+        tDesc.value = '<%= task.desc %>';
+        checked = '<%= task.done %>';
+        if (checked == 0) {
+            checked = false;
+        }
+        else {
+            checked = true;
+        }
+        console.log(checked);
+
         const submit = document.getElementById("submit-btn");
         submit.addEventListener("click", (event) => {
             event.preventDefault(); // Evita o envio padrão do formulário
             let tTitle = document.getElementById("task-title").value;
             let tDesc = document.getElementById("task-desc").value;
             let tDone = document.getElementById("task-status").checked;
-            fetch("/create", {
+            fetch("/edit", {
                 method: "POST",
                 body: JSON.stringify({
                     title: tTitle,
                     desc: tDesc,
-                    done: tDone
+                    done: tDone,
+                    _id: '<%= task.id %>'
                 }),
                 headers: { "Content-type": "application/json; charset=UTF-8" }
             })
