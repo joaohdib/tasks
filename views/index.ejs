@@ -26,8 +26,8 @@
                 </div>
                 <div class="task-actions">
                     <button class="view-btn">Visualizar</button>
-                    <button onclick="edit('<%=task.id%>')" class="edit-btn">Editar</button>
-                    <button onclick="del('<%=task.id%>')" class="delete-btn">Deletar</button>
+                    <button onclick="edit('<%=task._id%>')" class="edit-btn">Editar</button>
+                    <button onclick="del('<%=task._id%>')" class="delete-btn">Deletar</button>
                 </div>
             </div>
             <% }) %>
@@ -72,12 +72,14 @@
     });
 
     function edit(id) {
+        console.log(id);
         window.location.replace("/edit/" + id);
         return;
     }
 
     function del(idTask) {
         modal.style.visibility = 'visible';
+        console.log(idTask);
         idTaskDelete = idTask;
     }
 

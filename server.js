@@ -26,7 +26,8 @@ app.get('/', (req, res) => {
 });
 
 app.delete('/delete', (req,res) => {
-    Task.deleteOne({id: req.params.id})
+    console.log(req.body.id);
+    Task.deleteOne({_id: req.body.id})
     .then ((result) => {
         res.send(result);
     })
