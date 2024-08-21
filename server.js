@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Task = require('./models/task')
-
+const taskController = require('./controllers/taskController');
 const app = express();
 
 mongoose.connect('mongodb://127.0.0.1:27017/tasks')
@@ -10,90 +10,16 @@ mongoose.connect('mongodb://127.0.0.1:27017/tasks')
 
 
 app.set('view engine', 'ejs');
-
 app.use(express.static('public'));
-
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    Task.find()
-        .then(result => {
-            res.render('index', { tasks: result });
-        })
-        .catch(err => {
-            console.log(err);
-        });
-});
+app.get('/', taskController.index)
+app.delete('/delete', taskController.deleteTask);
+app.get('/create', taskController.createTaskPage);
+app.post('/create', taskController.createTask);
+app.get('/edit/:id', taskController.editTaskPage);
+app.post('/edit', taskController.editTask);
 
-app.delete('/delete', (req,res) => {
-    console.log(req.body.id);
-    Task.deleteOne({_id: req.body.id})
-    .then ((result) => {
-        res.send(result);
-    })
-    .catch((err) => {
-        console.log(err);
-    })
-})
-
-app.get('/create', (req, res) => {
-    res.render('create');
-});
-
-app.post('/create', (req, res) => {
-    console.log(req.body);
-    const task = new Task({
-        title: req.body.title,
-        desc: req.body.desc,
-        done: req.body.done
-    });
-
-    task.save()
-        .then((result) => {
-            res.send(result);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-});
-
-app.get('/edit/:id', (req, res) => {
-    Task.findById(req.params.id)
-        .then((result) => {
-            res.render('edit', { task: result });
-        })
-        .catch((err) => {
-            console.log(err)
-        });
-
-});
-
-app.post('/edit', (req, res) => {
-    console.log
-    Task.updateOne({ id: req.body.id }, {
-        title: req.body.title,
-        desc: req.body.desc,
-        done: req.body.done
-      })
-        .then((result) => {
-            res.send(result);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-
-});
-
-app.get('/edit/:id', (req, res) => {
-    Task.findById(req.params.id)
-        .then((result) => {
-            res.render('edit', { task: result });
-        })
-        .catch((err) => {
-            console.log(err)
-        });
-
-});
 
 
 
