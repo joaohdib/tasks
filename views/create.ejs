@@ -61,6 +61,7 @@
             let tDesc = document.getElementById("task-desc").value;
             let tDone = document.getElementById("task-status").checked;
             let tDate = document.getElementById("date").value;
+            console.log(tDate);
             let tPriority = document.getElementById("priority").value;
             console.log(tPriority);
             fetch("/create", {

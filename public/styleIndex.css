@@ -46,11 +46,17 @@ body {
 
 .task-status {
     font-size: 14px;
+    margin-top: 5px;
+}
+
+.task-status.done {
     color: green;
+    font-weight: bold;
 }
 
 .task-status.not-done {
     color: red;
+    font-weight: bold;
 }
 
 .task-date,

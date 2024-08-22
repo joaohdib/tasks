@@ -16,8 +16,10 @@
                 <div class="task-info">
                     <p class="task-title"><%= task.title %></p>
                     <p class="task-desc"><%= task.desc %></p>
-                    <p class="task-status done"><%= task.status %></p>
-                    <p class="task-date"><strong>Data:</strong> <%= task.date %></p>
+                    <p class="task-status <%= task.done === 1 ? 'done' : 'not-done' %>">
+                        <strong>Status:</strong> <%= task.done === 1 ? 'Feita' : 'Não Feita' %>
+                    </p>
+                    <p class="task-date"><strong>Data:</strong> <%= task.dueDate %></p>
                     <p class="task-priority"><strong>Prioridade:</strong> <%= task.priority %></p>
                 </div>
                 <div class="task-actions">
@@ -43,6 +45,8 @@
     const modal = document.getElementById("myModal");
     const cancelDel = document.getElementById("cancelDelete");
     const confirmDelete = document.getElementById("confirmDelete");
+    let dates = document.getElementsByClassName("task-date");
+    let data;
     let idTaskDelete;
 
     cancelDel.addEventListener("click", () => {

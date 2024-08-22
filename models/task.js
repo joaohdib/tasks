@@ -13,7 +13,7 @@ const taskSchema = new Schema({
     },
 
     dueDate: {
-        type:Date,
+        type:String,
     },
 
     priority: {
