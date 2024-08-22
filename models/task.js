@@ -12,6 +12,14 @@ const taskSchema = new Schema({
         required: true
     },
 
+    dueDate: {
+        type:Date,
+    },
+
+    priority: {
+        type:Number
+    },
+
     done: {
         type: Number,
         required: true

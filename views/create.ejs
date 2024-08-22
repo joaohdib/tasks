@@ -20,12 +20,27 @@
 
             <div class="form-group">
                 <label for="task-desc">Descrição</label>
-                <textarea id="task-desc" name="task-desc" placeholder="Digite a descrição da tarefa"></textarea>
+                <textarea style="font-family: Arial" id="task-desc" name="task-desc" placeholder="Digite a descrição da tarefa"></textarea>
             </div>
 
             <div class="form-group">
-                <input type="checkbox" id="task-status" name="task-status">
                 <label for="task-status" class="checkbox-label">Tarefa já foi feita</label>
+                <input type="checkbox" id="task-status" name="task-status">
+            </div>
+
+            <div class="form-group">
+                <label for="task-date">Prazo</label>
+                <input id="date" type="date"/>
+            </div>
+
+            <div class="form-group">
+                <label for="priority">Prioridade</label>
+                <select name="priority" id="priority">
+                    <option value="0"></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </select>
             </div>
 
             <div class="form-actions">
@@ -45,12 +60,17 @@
             let tTitle = document.getElementById("task-title").value;
             let tDesc = document.getElementById("task-desc").value;
             let tDone = document.getElementById("task-status").checked;
+            let tDate = document.getElementById("date").value;
+            let tPriority = document.getElementById("priority").value;
+            console.log(tPriority);
             fetch("/create", {
                 method: "POST",
                 body: JSON.stringify({
                     title: tTitle,
                     desc: tDesc,
-                    done: tDone
+                    done: tDone,
+                    dueDate: tDate,
+                    priority: tPriority 
                 }),
                 headers: { "Content-type": "application/json; charset=UTF-8" }
             })

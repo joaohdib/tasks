@@ -20,7 +20,7 @@ body {
 .task {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
 }
@@ -53,8 +53,20 @@ body {
     color: red;
 }
 
+.task-date,
+.task-priority {
+    font-size: 14px;
+    color: #333;
+    margin-top: 5px;
+}
+
+.task-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
 .task-actions button {
-    margin-left: 10px;
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -119,7 +131,7 @@ body {
 }
 
 .delete-btn {
-    background-color: #dc3545; /* Cor vermelha para indicar perigo */
+    background-color: #dc3545;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -129,7 +141,7 @@ body {
 }
 
 .cancel-btn {
-    background-color: #ffee00; /* Cor vermelha para indicar perigo */
+    background-color: #ffee00;
     color: rgb(0, 0, 0);
     padding: 10px 15px;
     border: none;
@@ -139,6 +151,6 @@ body {
 }
 
 .delete-btn:active {
-    background-color: #bd2130; /* Cor ainda mais escura ao clicar */
-    transform: scale(1); /* Remover efeito de zoom ao clicar */
+    background-color: #bd2130;
+    transform: scale(1);
 }

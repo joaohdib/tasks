@@ -11,27 +11,24 @@
 <body>
     <div class="task-container">
         <button class="create-btn">Criar Tarefa</button>
-        <% tasks.forEach(task=> { %>
+        <% tasks.forEach(task => { %>
             <div class="task">
                 <div class="task-info">
-                    <p class="task-title">
-                        <%= task.title %>
-                    </p>
-                    <p class="task-desc">
-                        <%= task.desc %>
-                    </p>
-                    <p class="task-status done">
-                        <%= task.status %>
-                    </p>
+                    <p class="task-title"><%= task.title %></p>
+                    <p class="task-desc"><%= task.desc %></p>
+                    <p class="task-status done"><%= task.status %></p>
+                    <p class="task-date"><strong>Data:</strong> <%= task.date %></p>
+                    <p class="task-priority"><strong>Prioridade:</strong> <%= task.priority %></p>
                 </div>
                 <div class="task-actions">
                     <button class="view-btn">Visualizar</button>
-                    <button onclick="edit('<%=task._id%>')" class="edit-btn">Editar</button>
-                    <button onclick="del('<%=task._id%>')" class="delete-btn">Deletar</button>
+                    <button onclick="edit('<%= task._id %>')" class="edit-btn">Editar</button>
+                    <button onclick="del('<%= task._id %>')" class="delete-btn">Deletar</button>
                 </div>
             </div>
-            <% }) %>
+        <% }) %>
     </div>
+
     <div id="myModal" class="modal">
         <div class="modal-content">
             <p>Are you sure you want to delete this task?</p>
@@ -49,7 +46,7 @@
     let idTaskDelete;
 
     cancelDel.addEventListener("click", () => {
-        modal.visibility = 'hidden';
+        modal.style.visibility = 'hidden';
     });
 
     confirmDelete.addEventListener("click", () => {
@@ -62,7 +59,7 @@
         })
             .then((response) => response.json())
             .then((json) => {
-                console.log(json)
+                console.log(json);
                 location.reload();
             });
     });
@@ -72,17 +69,14 @@
     });
 
     function edit(id) {
-        console.log(id);
         window.location.replace("/edit/" + id);
         return;
     }
 
     function del(idTask) {
         modal.style.visibility = 'visible';
-        console.log(idTask);
         idTaskDelete = idTask;
     }
-
 </script>
 
 </html>

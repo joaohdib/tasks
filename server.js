@@ -1,13 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Task = require('./models/task')
 const taskController = require('./controllers/taskController');
 const app = express();
 
 mongoose.connect('mongodb://127.0.0.1:27017/tasks')
     .then((result) => app.listen(3000))
     .catch((error) => console.log("error"))
-
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));

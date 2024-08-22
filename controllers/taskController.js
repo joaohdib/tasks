@@ -30,7 +30,9 @@ const createTask = (req, res) => {
     const task = new Task({
         title: req.body.title,
         desc: req.body.desc,
-        done: req.body.done
+        done: req.body.done,
+        dueDate: req.body.dueDate,
+        priority: req.body.priority
     });
 
     task.save()
@@ -65,8 +67,6 @@ const editTask = (req, res) => {
             console.log(err);
         });
 }
-
-
 
 module.exports = {
     index,
