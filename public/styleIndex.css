@@ -5,7 +5,7 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     height: 100vh;
 }
 
@@ -15,6 +15,22 @@ body {
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.create-btn-container {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    padding-bottom: 10px;
+    z-index: 100;
+}
+
+.tasks-list {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
 .task {

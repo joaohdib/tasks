@@ -1,7 +1,7 @@
 const Task = require('../models/task');
 
 const index = (req, res) => {
-    Task.find()
+    Task.find().sort({done: 1,priority: -1})
         .then(result => {
             res.render('index', { tasks: result });
         })

@@ -10,25 +10,40 @@
 
 <body>
     <div class="task-container">
-        <button class="create-btn">Criar Tarefa</button>
-        <% tasks.forEach(task => { %>
-            <div class="task">
-                <div class="task-info">
-                    <p class="task-title"><%= task.title %></p>
-                    <p class="task-desc"><%= task.desc %></p>
-                    <p class="task-status <%= task.done === 1 ? 'done' : 'not-done' %>">
-                        <strong>Status:</strong> <%= task.done === 1 ? 'Feita' : 'Não Feita' %>
-                    </p>
-                    <p class="task-date"><strong>Data:</strong> <%= task.dueDate %></p>
-                    <p class="task-priority"><strong>Prioridade:</strong> <%= task.priority %></p>
+        <div class="create-btn-container">
+            <button class="create-btn">Criar Tarefa</button>
+            <input type="checkbox" id="doneTasks" name="doneTasks" value="doneTasks">
+            <label for="doneTasks">Não incluir tarefas feitas</label>
+        </div>
+        <div class="tasks-list">
+            <% tasks.forEach(task=> { %>
+                <div class="task">
+                    <div class="task-info">
+                        <p class="task-title">
+                            <%= task.title %>
+                        </p>
+                        <p class="task-desc">
+                            <%= task.desc %>
+                        </p>
+                        <p class="task-status <%= task.done === 1 ? 'done' : 'not-done' %>">
+                            <strong>Status:</strong>
+                            <%= task.done===1 ? 'Feita' : 'Não Feita' %>
+                        </p>
+                        <p class="task-date"><strong>Data:</strong>
+                            <%= task.dueDate %>
+                        </p>
+                        <p class="task-priority"><strong>Prioridade:</strong>
+                            <%= task.priority %>
+                        </p>
+                    </div>
+                    <div class="task-actions">
+                        <button class="view-btn">Visualizar</button>
+                        <button onclick="edit('<%= task._id %>')" class="edit-btn">Editar</button>
+                        <button onclick="del('<%= task._id %>')" class="delete-btn">Deletar</button>
+                    </div>
                 </div>
-                <div class="task-actions">
-                    <button class="view-btn">Visualizar</button>
-                    <button onclick="edit('<%= task._id %>')" class="edit-btn">Editar</button>
-                    <button onclick="del('<%= task._id %>')" class="delete-btn">Deletar</button>
-                </div>
-            </div>
-        <% }) %>
+            <% }) %>
+        </div>
     </div>
 
     <div id="myModal" class="modal">
@@ -38,49 +53,70 @@
             <button id="cancelDelete" class="cancel-btn">Cancel</button>
         </div>
     </div>
+
+    <script>
+        const botaoCriar = document.getElementsByClassName('create-btn')[0];
+        const modal = document.getElementById("myModal");
+        const cancelDel = document.getElementById("cancelDelete");
+        const confirmDelete = document.getElementById("confirmDelete");
+        const doneCheckbox = document.getElementById("doneTasks")
+        let dates = document.getElementsByClassName("task-date");
+        const tasks = document.getElementsByClassName("task");
+        let data;
+        let done;
+        let idTaskDelete;
+
+        doneCheckbox.addEventListener("change", () => {
+            //console.log(tasks);
+            if (doneCheckbox.checked) {
+                for (let i = 0; i < tasks.length; i++) {
+                    done = tasks[i].childNodes[1].childNodes[5].className;
+                    if (done === 'task-status done') {
+                        tasks[i].style.display = 'none';                    }
+                }
+            }
+            else {
+                for (let i = 0; i < tasks.length; i++) {
+                    done = tasks[i].childNodes[1].childNodes[5].className;
+                    if (done === 'task-status done') {
+                        tasks[i].style.display = 'flex';                    }
+                }
+            }
+        });
+
+        cancelDel.addEventListener("click", () => {
+            modal.style.visibility = 'hidden';
+        });
+
+        confirmDelete.addEventListener("click", () => {
+            fetch("/delete", {
+                method: "DELETE",
+                body: JSON.stringify({
+                    id: idTaskDelete
+                }),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            })
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json);
+                    location.reload();
+                });
+        });
+
+        botaoCriar.addEventListener("click", () => {
+            window.location.replace("/create");
+        });
+
+        function edit(id) {
+            window.location.replace("/edit/" + id);
+            return;
+        }
+
+        function del(idTask) {
+            modal.style.visibility = 'visible';
+            idTaskDelete = idTask;
+        }
+    </script>
 </body>
-
-<script>
-    const botaoCriar = document.getElementsByClassName('create-btn')[0];
-    const modal = document.getElementById("myModal");
-    const cancelDel = document.getElementById("cancelDelete");
-    const confirmDelete = document.getElementById("confirmDelete");
-    let dates = document.getElementsByClassName("task-date");
-    let data;
-    let idTaskDelete;
-
-    cancelDel.addEventListener("click", () => {
-        modal.style.visibility = 'hidden';
-    });
-
-    confirmDelete.addEventListener("click", () => {
-        fetch("/delete", {
-            method: "DELETE",
-            body: JSON.stringify({
-                id: idTaskDelete
-            }),
-            headers: { "Content-type": "application/json; charset=UTF-8" }
-        })
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json);
-                location.reload();
-            });
-    });
-
-    botaoCriar.addEventListener("click", () => {
-        window.location.replace("/create");
-    });
-
-    function edit(id) {
-        window.location.replace("/edit/" + id);
-        return;
-    }
-
-    function del(idTask) {
-        modal.style.visibility = 'visible';
-        idTaskDelete = idTask;
-    }
-</script>
 
 </html>
