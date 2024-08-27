@@ -55,13 +55,15 @@ const editTaskPage = (req, res) => {
 }
 
 const editTask = (req, res) => {
-    Task.updateOne({ id: req.body.id }, {
+    console.log(req.body._id);
+    Task.updateOne({ _id: req.body._id }, {
         title: req.body.title,
         desc: req.body.desc,
         done: req.body.done
     })
         .then((result) => {
             res.send(result);
+            console.log("foi");
         })
         .catch((err) => {
             console.log(err);

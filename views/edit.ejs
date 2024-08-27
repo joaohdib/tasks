@@ -61,6 +61,14 @@
             let tTitle = document.getElementById("task-title").value;
             let tDesc = document.getElementById("task-desc").value;
             let tDone = document.getElementById("task-status").checked;
+
+            if (tDone == true) {
+                tDone = 1;
+            }
+            else {
+                tDone = 0;
+            }
+
             fetch("/edit", {
                 method: "POST",
                 body: JSON.stringify({
